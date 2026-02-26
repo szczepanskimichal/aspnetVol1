@@ -13,7 +13,7 @@ namespace aspnetVol1.Controllers
         [HttpGet]
         public IActionResult GetShirts()
         {
-            return Ok("Reading all shirts from the database");
+            return Ok(ShirtRespozitory.GetShirts());
         }
 
         [HttpGet("{id}")]

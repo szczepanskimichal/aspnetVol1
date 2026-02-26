@@ -10,6 +10,10 @@ public class ShirtRespozitory
             new Shirt { ShirtId = 4, Brand = "Puma", Color = "Black", Gender = "Men", Size = 8, Price = 24.99 }
         };
 
+        public static List<Shirt> GetShirts()
+        {
+            return shirts;
+        }
         public static bool ShirtExists(int id)
         {
             return shirts.Any(x=>x.ShirtId == id);
