@@ -1,5 +1,55 @@
+# Build directories
 bin/
 obj/
+
+# NuGet packages
 /packages/
+*.nuget.props
+*.nuget.targets
+
+# Rider
 riderModule.iml
 /_ReSharper.Caches/
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio cache/options
+.vs/
+
+# Local History
+.localhistory/
+
+# User secrets
+appsettings.Development.json
+secrets.json
+secrets.*.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+
+# Project files
+*.csproj.user
+*.vbproj.user
+
+# Coverage reports
+coverage/
+*.coverage
+*.coveragexml
