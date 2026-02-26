@@ -1,3 +1,4 @@
+using System.Drawing;
 using aspnetVol1.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,35 +8,51 @@ namespace aspnetVol1.Controllers
     [Route("api/[controller]")]
     public class ShirtController : ControllerBase
     {
+        private static List<Shirt> shirts = new List<Shirt>()
+        {
+            new Shirt { ShirtId = 1, Brand = "Nike", Color = "Red", Gender = "Men", Size = 10, Price = 29.99 },
+            new Shirt { ShirtId = 2, Brand = "Adidas", Color = "Blue", Gender = "Men", Size = 22, Price = 122.88 },
+            new Shirt { ShirtId = 3, Brand = "Under Armour", Color = "Green", Gender = "Men", Size = 6, Price = 19.99 },
+            new Shirt { ShirtId = 4, Brand = "Puma", Color = "Black", Gender = "Men", Size = 8, Price = 24.99 }
+        };
+
         [HttpGet]
-        //[Route("shirts")]
-        public string GetShirts()
+        public IActionResult GetShirts()
         {
-            return "Reading all shirts from the database";
+            return Ok("Reading all shirts from the database");
         }
+
         [HttpGet("{id}")]
-        //[Route("shirts/{id}")]
-        public string GetShirt(int id)
+        //public string GetShirtById(int id)
+        public IActionResult GetShirtById(int id)
         {
-            return "Reading shirt " + id;
+            if (id <=0) return BadRequest();
+            
+            var shirt = shirts.FirstOrDefault(x => x.ShirtId == id);
+            if (shirt == null)
+                //return $"Shirt {id} not found";
+                return NotFound();
+            
+            //return $"Reading shirt {id}: {shirt.Brand} {shirt.Color} {shirt.Gender} {shirt.Size} {shirt.Price}";
+            return Ok(shirt);
         }
+
         [HttpPost]
-        //[Route("shirts")]
-        public string CreateShirt([FromBody]Shirt shirt) //action method
+        public IActionResult CreateShirt([FromBody]Shirt shirt)
         {
-            return $"Creating a new shirt: {shirt.Brand} {shirt.Color}, size {shirt.Size} in the database";
+            return Ok($"Creating a new shirt: {shirt.Brand} {shirt.Color}, size {shirt.Size} in the database");
         }
+
         [HttpPut("{id}")]
-        //[Route("shirts/{id}")]
-        public string UpdateShirt(int id, [FromBody]Shirt shirt)
+        public IActionResult UpdateShirt(int id, [FromBody]Shirt shirt)
         {
-           return $"Updating shirt {id}: {shirt.Brand} {shirt.Color}";
+            return Ok($"Updating shirt {id}: {shirt.Brand} {shirt.Color}");
         }
+
         [HttpDelete("{id}")]
-        //[Route("shirts/{id}")]
-        public string DeleteShirt(int id)
+        public IActionResult DeleteShirt(int id)
         {
-            return "Deleting shirt " + id;
+            return Ok($"Deleting shirt {id}");
         }
     }
 }
