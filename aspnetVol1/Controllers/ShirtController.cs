@@ -21,7 +21,7 @@ namespace aspnetVol1.Controllers
         }
         [HttpPost]
         //[Route("shirts")]
-        public string CreateShirt([FromBody]Shirt shirt)
+        public string CreateShirt([FromBody]Shirt shirt) //action method
         {
             return $"Creating a new shirt: {shirt.Brand} {shirt.Color}, size {shirt.Size} in the database";
         }
