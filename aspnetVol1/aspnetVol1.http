@@ -3,7 +3,7 @@
 GET {{aspnetVol1_HostAddress}}/api/shirt
 
 ### GET shirt with id 10
-GET {{aspnetVol1_HostAddress}}/api/shirt/5
+GET {{aspnetVol1_HostAddress}}/api/shirt/3
 
 ### POST a new shirt
 POST {{aspnetVol1_HostAddress}}/api/shirt

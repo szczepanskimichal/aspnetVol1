@@ -1,4 +1,5 @@
 using System.Drawing;
+using aspnetVol1.Filters;
 using aspnetVol1.Models;
 using aspnetVol1.Models.Respozitories;
 using Microsoft.AspNetCore.Mvc;
@@ -16,18 +17,11 @@ namespace aspnetVol1.Controllers
         }
 
         [HttpGet("{id}")]
+        [Shirt_ValidateShirtIdFilter]
         //public string GetShirtById(int id)
         public IActionResult GetShirtById(int id)
         {
-            if (id <=0) return BadRequest();
-            
-            var shirt = ShirtRespozitory.GetShirtById(id);
-            if (shirt == null)
-                //return $"Shirt {id} not found";
-                return NotFound();
-            
-            //return $"Reading shirt {id}: {shirt.Brand} {shirt.Color} {shirt.Gender} {shirt.Size} {shirt.Price}";
-            return Ok(shirt);
+            return Ok(ShirtRespozitory.GetShirtById(id));
         }
 
         [HttpPost]
