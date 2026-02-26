@@ -23,13 +23,13 @@ namespace aspnetVol1.Controllers
         //[Route("shirts")]
         public string CreateShirt([FromBody]Shirt shirt)
         {
-            return "Creating a new shirt in the database";
+            return $"Creating a new shirt: {shirt.Brand} {shirt.Color}, size {shirt.Size} in the database";
         }
         [HttpPut("{id}")]
         //[Route("shirts/{id}")]
-        public string UpdateShirt(int id)
+        public string UpdateShirt(int id, [FromBody]Shirt shirt)
         {
-            return "Updating shirt " + id;
+           return $"Updating shirt {id}: {shirt.Brand} {shirt.Color}";
         }
         [HttpDelete("{id}")]
         //[Route("shirts/{id}")]
