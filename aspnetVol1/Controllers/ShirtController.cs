@@ -1,3 +1,4 @@
+using aspnetVol1.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace aspnetVol1.Controllers
@@ -20,7 +21,7 @@ namespace aspnetVol1.Controllers
         }
         [HttpPost]
         //[Route("shirts")]
-        public string CreateShirt()
+        public string CreateShirt([FromBody]Shirt shirt)
         {
             return "Creating a new shirt in the database";
         }

@@ -9,9 +9,27 @@ GET {{aspnetVol1_HostAddress}}/api/shirt/10
 POST {{aspnetVol1_HostAddress}}/api/shirt
 Content-Type: application/json
 
+{
+  "shirtId": 1,
+  "brand": "Nike",
+  "color": "Blue",
+  "size": 42,
+  "gender": "Male",
+  "price": 29.99
+}
+
 ### PUT update shirt with id 10
 PUT {{aspnetVol1_HostAddress}}/api/shirt/10
 Content-Type: application/json
+
+{
+  "shirtId": 10,
+  "brand": "Adidas",
+  "color": "Red",
+  "size": 40,
+  "gender": "Female",
+  "price": 39.99
+}
 ### DELETE shirt with id 10
 DELETE {{aspnetVol1_HostAddress}}/api/shirt/10
 Content-Type: application/json
