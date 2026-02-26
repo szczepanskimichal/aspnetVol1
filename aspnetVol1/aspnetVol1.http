@@ -13,8 +13,8 @@ Content-Type: application/json
   "shirtId": 1,
   "brand": "Nike",
   "color": "Blue",
-  "size": 42,
-  "gender": "Male",
+  "size": 34,
+  "gender": "men",
   "price": 29.99
 }
 
