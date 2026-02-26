@@ -1,19 +1,17 @@
 @aspnetVol1_HostAddress = http://localhost:5042
-// GET all shirts
-GET http://localhost:5042/shirts
-###
-// GET shirt with id 1
-GET http://localhost:5042/shirts/10
-###
-// POST a new shirt
-POST http://localhost:5042/shirts
+### GET all shirts
+GET {{aspnetVol1_HostAddress}}/api/shirt
+
+### GET shirt with id 10
+GET {{aspnetVol1_HostAddress}}/api/shirt/10
+
+### POST a new shirt
+POST {{aspnetVol1_HostAddress}}/api/shirt
 Content-Type: application/json
 
-###
-// PUT update shirt with id 1
-PUT http://localhost:5042/shirts/10
+### PUT update shirt with id 10
+PUT {{aspnetVol1_HostAddress}}/api/shirt/10
 Content-Type: application/json
-
-###
-// DELETE shirt with id 1
-DELETE http://localhost:5042/shirts/1
+### DELETE shirt with id 10
+DELETE {{aspnetVol1_HostAddress}}/api/shirt/10
+Content-Type: application/json
