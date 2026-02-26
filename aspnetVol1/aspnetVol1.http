@@ -3,19 +3,19 @@
 GET {{aspnetVol1_HostAddress}}/api/shirt
 
 ### GET shirt with id 10
-GET {{aspnetVol1_HostAddress}}/api/shirt/3
+GET {{aspnetVol1_HostAddress}}/api/shirt/6
 
 ### POST a new shirt
 POST {{aspnetVol1_HostAddress}}/api/shirt
 Content-Type: application/json
 
 {
-  "shirtId": 5,
-  "brand": "Nike",
+  "shirtId": 6,
+  "brand": "Nikesdada",
   "color": "Blue",
   "size": 34,
-  "gender": "men",
-  "price": 29.99
+  "gender": "women",
+  "price": 59.99
 }
 
 ### PUT update shirt with id 10
@@ -23,8 +23,8 @@ PUT {{aspnetVol1_HostAddress}}/api/shirt/10
 Content-Type: application/json
 
 {
-  "shirtId": 10,
-  "brand": "Adidas",
+  "shirtId": 6,
+  "brand": "Adiasdlnalksdas",
   "color": "Red",
   "size": 40,
   "gender": "Female",

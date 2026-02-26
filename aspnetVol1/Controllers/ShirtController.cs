@@ -27,7 +27,17 @@ namespace aspnetVol1.Controllers
         [HttpPost]
         public IActionResult CreateShirt([FromBody]Shirt shirt)
         {
-            return Ok($"Creating a new shirt: {shirt.Brand} {shirt.Color}, size {shirt.Size} in the database");
+            if (shirt == null) 
+                return BadRequest("Invalid shirt data.");
+    
+            var existingShirt = ShirtRespozitory.GetShirtByProperties(shirt.Brand, shirt.Color, shirt.Size, shirt.Gender);
+            if(existingShirt != null) 
+                return BadRequest("Shirt with the same properties already exists.");
+    
+            ShirtRespozitory.AddShirt(shirt);
+            return CreatedAtAction(nameof(GetShirtById),
+                new { id = shirt.ShirtId },
+                shirt);
         }
 
         [HttpPut("{id}")]
