@@ -1,5 +1,6 @@
 using System.Drawing;
 using aspnetVol1.Models;
+using aspnetVol1.Models.Respozitories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace aspnetVol1.Controllers
@@ -7,15 +8,7 @@ namespace aspnetVol1.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class ShirtController : ControllerBase
-    {
-        private static List<Shirt> shirts = new List<Shirt>()
-        {
-            new Shirt { ShirtId = 1, Brand = "Nike", Color = "Red", Gender = "Men", Size = 10, Price = 29.99 },
-            new Shirt { ShirtId = 2, Brand = "Adidas", Color = "Blue", Gender = "Men", Size = 22, Price = 122.88 },
-            new Shirt { ShirtId = 3, Brand = "Under Armour", Color = "Green", Gender = "Men", Size = 6, Price = 19.99 },
-            new Shirt { ShirtId = 4, Brand = "Puma", Color = "Black", Gender = "Men", Size = 8, Price = 24.99 }
-        };
-
+    { 
         [HttpGet]
         public IActionResult GetShirts()
         {
@@ -28,7 +21,7 @@ namespace aspnetVol1.Controllers
         {
             if (id <=0) return BadRequest();
             
-            var shirt = shirts.FirstOrDefault(x => x.ShirtId == id);
+            var shirt = ShirtRespozitory.GetShirtById(id);
             if (shirt == null)
                 //return $"Shirt {id} not found";
                 return NotFound();

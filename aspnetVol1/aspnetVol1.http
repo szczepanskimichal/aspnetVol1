@@ -3,14 +3,14 @@
 GET {{aspnetVol1_HostAddress}}/api/shirt
 
 ### GET shirt with id 10
-GET {{aspnetVol1_HostAddress}}/api/shirt/4
+GET {{aspnetVol1_HostAddress}}/api/shirt/5
 
 ### POST a new shirt
 POST {{aspnetVol1_HostAddress}}/api/shirt
 Content-Type: application/json
 
 {
-  "shirtId": 1,
+  "shirtId": 5,
   "brand": "Nike",
   "color": "Blue",
   "size": 34,
