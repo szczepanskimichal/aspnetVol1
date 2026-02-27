@@ -57,4 +57,13 @@ public class ShirtRespozitory
             shirtToUpdate.Size = shirt.Size;
             shirtToUpdate.Price = shirt.Price;
         }
+
+        public static void DeleteShirt(int shirtId)
+        {
+            var shirt = GetShirtById(shirtId);
+            if (shirt != null)
+            {
+                shirts.Remove(shirt);
+            }
+        }
 }

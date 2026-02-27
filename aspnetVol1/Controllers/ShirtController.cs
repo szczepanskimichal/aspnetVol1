@@ -66,9 +66,13 @@ namespace aspnetVol1.Controllers
         }
 */
         [HttpDelete("{id}")]
+        [Shirt_ValidateShirtIdFilter]
         public IActionResult DeleteShirt(int id)
         {
-            return Ok($"Deleting shirt {id}");
+            var shirt = ShirtRespozitory.GetShirtById(id);
+            ShirtRespozitory.DeleteShirt(id);
+            //shirt.Remove(shirt); --- ask Geir why this is not working!!!
+            return Ok(shirt);
         }
     }
 }
