@@ -1,4 +1,5 @@
 using aspnetVol1.Filters;
+using aspnetVol1.Filters.ExceptionsFilters;
 using aspnetVol1.Models;
 using aspnetVol1.Models.Respozitories;
 using Microsoft.AspNetCore.Mvc;
@@ -39,20 +40,14 @@ namespace aspnetVol1.Controllers
         [HttpPut("{id}")]
         [Shirt_ValidateShirtIdFilter]
         [Shirt_ValidateUpdateShirtFilter]
+       [Shirt_HandleUpdateExceptionsFilter]
         public IActionResult UpdateShirt(int id, [FromBody] Shirt shirt)
         {
             
            // if (id != shirt.ShirtId) return BadRequest();
-            try
-            {
+            
                 ShirtRespozitory.UpdateShirt(shirt);
-            }
-            catch
-            {
-                if (!ShirtRespozitory.ShirtExists(id))
-                    return NotFound();
-                throw;
-            }
+         
 
             return NoContent();
         }
