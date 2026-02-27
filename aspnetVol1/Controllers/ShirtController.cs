@@ -25,14 +25,10 @@ namespace aspnetVol1.Controllers
         }
 
         [HttpPost]
+        [Shirt_ValidateCreateShirtFilter]
         public IActionResult CreateShirt([FromBody]Shirt shirt)
         {
-            if (shirt == null) 
-                return BadRequest("Invalid shirt data.");
-    
-            var existingShirt = ShirtRespozitory.GetShirtByProperties(shirt.Brand, shirt.Color, shirt.Size, shirt.Gender);
-            if(existingShirt != null) 
-                return BadRequest("Shirt with the same properties already exists.");
+            
     
             ShirtRespozitory.AddShirt(shirt);
             return CreatedAtAction(nameof(GetShirtById),

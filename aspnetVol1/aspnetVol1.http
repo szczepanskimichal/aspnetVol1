@@ -11,8 +11,8 @@ Content-Type: application/json
 
 {
   "shirtId": 6,
-  "brand": "Nikesdada",
-  "color": "Blue",
+  "brand": "Nikesddsadda",
+  "color": "Bluasdsdae",
   "size": 34,
   "gender": "women",
   "price": 59.99
