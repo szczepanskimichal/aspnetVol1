@@ -1,35 +1,35 @@
 @aspnetVol1_HostAddress = http://localhost:5042
+
 ### GET all shirts
 GET {{aspnetVol1_HostAddress}}/api/shirt
 
-### GET shirt with id 10
-GET {{aspnetVol1_HostAddress}}/api/shirt/6
+### GET shirt with id 4
+GET {{aspnetVol1_HostAddress}}/api/shirt/4
 
 ### POST a new shirt
 POST {{aspnetVol1_HostAddress}}/api/shirt
 Content-Type: application/json
 
 {
-  "shirtId": 6,
+  "brand": "Nike",
+  "color": "Blue",
+  "size": 34,
+  "gender": "women",
+  "price": 54.99
+}
+
+### PUT update shirt with id 5
+PUT {{aspnetVol1_HostAddress}}/api/shirt/3
+Content-Type: application/json
+
+{
+  "shirtId": 4,
   "brand": "Nikesddsadda",
   "color": "Bluasdsdae",
   "size": 34,
   "gender": "women",
-  "price": 59.99
+  "price": 533.99
 }
 
-### PUT update shirt with id 10
-PUT {{aspnetVol1_HostAddress}}/api/shirt/10
-Content-Type: application/json
-
-{
-  "shirtId": 6,
-  "brand": "Adiasdlnalksdas",
-  "color": "Red",
-  "size": 40,
-  "gender": "Female",
-  "price": 39.99
-}
 ### DELETE shirt with id 10
-DELETE {{aspnetVol1_HostAddress}}/api/shirt/10
-Content-Type: application/json
+DELETE {{aspnetVol1_HostAddress}}/api/shirt/4

@@ -1,4 +1,3 @@
-using System.Drawing;
 using aspnetVol1.Filters;
 using aspnetVol1.Models;
 using aspnetVol1.Models.Respozitories;
@@ -36,12 +35,41 @@ namespace aspnetVol1.Controllers
                 shirt);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateShirt(int id, [FromBody]Shirt shirt)
-        {
-            return Ok($"Updating shirt {id}: {shirt.Brand} {shirt.Color}");
-        }
 
+        [HttpPut("{id}")]
+        [Shirt_ValidateShirtIdFilter]
+        [Shirt_ValidateUpdateShirtFilter]
+        public IActionResult UpdateShirt(int id, [FromBody] Shirt shirt)
+        {
+            
+           // if (id != shirt.ShirtId) return BadRequest();
+            try
+            {
+                ShirtRespozitory.UpdateShirt(shirt);
+            }
+            catch
+            {
+                if (!ShirtRespozitory.ShirtExists(id))
+                    return NotFound();
+                throw;
+            }
+
+            return NoContent();
+        }
+           /*
+            if (shirt == null)
+                return BadRequest("Shirt object is null.");
+
+            if (id != shirt.ShirtId)
+                return BadRequest($"URL id ({id}) does not match shirt id ({shirt.ShirtId}).");
+
+            if (!ShirtRespozitory.ShirtExists(id))
+                return NotFound($"Shirt with id {id} not found.");
+
+            ShirtRespozitory.UpdateShirt(shirt);
+            return NoContent();
+        }
+*/
         [HttpDelete("{id}")]
         public IActionResult DeleteShirt(int id)
         {
