@@ -1,35 +1,46 @@
 @aspnetVol1_HostAddress = http://localhost:5042
+@existingShirtId = 2
 
-### GET all shirts
+### 1) GET: lista wszystkich koszulek
 GET {{aspnetVol1_HostAddress}}/api/shirt
 
-### GET shirt with id 4
-GET {{aspnetVol1_HostAddress}}/api/shirt/4
+### 2) GET: pojedyncza istniejaca koszulka (id=2)
+GET {{aspnetVol1_HostAddress}}/api/shirt/{{existingShirtId}}
 
-### POST a new shirt
+### 3) POST: utworz nowa koszulke
 POST {{aspnetVol1_HostAddress}}/api/shirt
 Content-Type: application/json
 
 {
-  "brand": "Nike",
+  "brand": "TestBrand",
   "color": "Blue",
-  "size": 34,
-  "gender": "women",
-  "price": 54.99
+  "size": 42,
+  "gender": "Women",
+  "price": 154.99
 }
 
-### PUT update shirt with id 5
-PUT {{aspnetVol1_HostAddress}}/api/shirt/9
+> {%
+client.global.set("createdShirtId", response.body.shirtId);
+%}
+
+### 4) GET: pobierz nowo utworzona koszulke
+GET {{aspnetVol1_HostAddress}}/api/shirt/{{createdShirtId}}
+
+### 5) PUT: zaktualizuj nowo utworzona koszulke (ID w URL i body musi byc identyczne!)
+PUT {{aspnetVol1_HostAddress}}/api/shirt/{{createdShirtId}}
 Content-Type: application/json
 
 {
-  "shirtId": 9,
-  "brand": "Nikesddsadda",
-  "color": "Bluasdsdae",
-  "size": 34,
-  "gender": "women",
-  "price": 533.99
+  "shirtId": {{createdShirtId}},
+  "brand": "TestBrandUpdated",
+  "color": "Black",
+  "size": 44,
+  "gender": "Women",
+  "price": 199.99
 }
 
-### DELETE shirt with id 10
-DELETE {{aspnetVol1_HostAddress}}/api/shirt/4
+### 6) DELETE: usun nowo utworzona koszulke
+DELETE {{aspnetVol1_HostAddress}}/api/shirt/{{createdShirtId}}
+
+### 7) GET: sprawdz czy usunieto (powinien byc 404)
+GET {{aspnetVol1_HostAddress}}/api/shirt/{{createdShirtId}}

@@ -1,5 +1,6 @@
 using aspnetVol1.Data;
 using aspnetVol1.Filters;
+using aspnetVol1.Filters.ActionFilters;
 using aspnetVol1.Filters.ExceptionsFilters;
 using aspnetVol1.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,37 +12,34 @@ namespace aspnetVol1.Controllers
     [Route("api/[controller]")]
     public class ShirtController : ControllerBase
     {
-        private readonly AplicationDbContext _context;
+        private readonly AplicationDbContext _db;
 
-        public ShirtController(AplicationDbContext context)
+        public ShirtController(AplicationDbContext db)
         {
-            _context = context;
+            this._db = db;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetShirts()
         {
-            var shirts = await _context.Shirts.ToListAsync();
-            return Ok(shirts);
+            return Ok(_db.Shirts.ToList());
         }
 
         [HttpGet("{id}")]
-        [Shirt_ValidateShirtIdFilter]
+        //[Shirt_ValidateShirtIdFilte]
+        [TypeFilter((typeof(Shirt_ValidateShirtIdFilterAttribute)))]
         public async Task<IActionResult> GetShirtById(int id)
         {
-            var shirt = await _context.Shirts.FindAsync(id);
-            if (shirt == null)
-                return NotFound();
-            
-            return Ok(shirt);
+            return Ok(HttpContext.Items["shirt"]);
         }
 
         [HttpPost]
-        [Shirt_ValidateCreateShirtFilter]
+        //[Shirt_ValidateCreateShirtFilter]
+        [TypeFilter((typeof(Shirt_ValidateCreateShirtFilterAttribute)))]
         public async Task<IActionResult> CreateShirt([FromBody]Shirt shirt)
         {
-            _context.Shirts.Add(shirt);
-            await _context.SaveChangesAsync();
+            this._db.Shirts.Add(shirt);
+            this._db.SaveChanges();
             
             return CreatedAtAction(nameof(GetShirtById),
                 new { id = shirt.ShirtId },
@@ -49,30 +47,45 @@ namespace aspnetVol1.Controllers
         }
 
         [HttpPut("{id}")]
-        [Shirt_ValidateShirtIdFilter]
+        //[Shirt_ValidateShirtIdFilter]
+        [TypeFilter((typeof(Shirt_ValidateShirtIdFilterAttribute)))]
         [Shirt_ValidateUpdateShirtFilter]
-        [Shirt_HandleUpdateExceptionsFilter]
+        //[Shirt_HandleUpdateExceptionsFilter]
+        [TypeFilter(typeof(Shirt_HandleUpdateExceptionsFilterAttribute))]
         public async Task<IActionResult> UpdateShirt(int id, [FromBody] Shirt shirt)
         {
-            shirt.ShirtId = id;
-            _context.Entry(shirt).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            var shirtToUpdate = HttpContext.Items["shirt"] as Shirt;
+            if (shirtToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            shirtToUpdate.Brand = shirt.Brand;
+            shirtToUpdate.Price = shirt.Price;
+            shirtToUpdate.Size = shirt.Size;
+            shirtToUpdate.Color = shirt.Color;
+            shirtToUpdate.Gender = shirt.Gender;
+
+            _db.SaveChanges();
             
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        [Shirt_ValidateShirtIdFilter]
+        //[Shirt_ValidateShirtIdFilter]
+        [TypeFilter((typeof(Shirt_ValidateShirtIdFilterAttribute)))]
         public async Task<IActionResult> DeleteShirt(int id)
         {
-            var shirt = await _context.Shirts.FindAsync(id);
-            if (shirt == null)
+            var shirtToDelete = await _db.Shirts.FindAsync(id);
+            if (shirtToDelete == null)
+            {
                 return NotFound();
-            
-            _context.Shirts.Remove(shirt);
-            await _context.SaveChangesAsync();
-            
-            return Ok(shirt);
+            }
+
+            _db.Shirts.Remove(shirtToDelete);
+            await _db.SaveChangesAsync();
+
+            return Ok(shirtToDelete);
         }
     }
 }

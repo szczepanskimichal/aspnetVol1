@@ -5,7 +5,7 @@ using aspnetVol1.Data;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
-
+// tutaj rejestrujemy nasz kontekst bazy danych, który będzie używany w całej aplikacji, dzięki wstrzykiwaniu zależności
 builder.Services.AddDbContext<AplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ShirtStoreManagement")));
 
