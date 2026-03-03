@@ -1,77 +1,77 @@
+using aspnetVol1.Data;
 using aspnetVol1.Filters;
 using aspnetVol1.Filters.ExceptionsFilters;
 using aspnetVol1.Models;
-using aspnetVol1.Models.Respozitories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace aspnetVol1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class ShirtController : ControllerBase
-    { 
-        [HttpGet]
-        public IActionResult GetShirts()
+    {
+        private readonly AplicationDbContext _context;
+
+        public ShirtController(AplicationDbContext context)
         {
-            return Ok(ShirtRespozitory.GetShirts());
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetShirts()
+        {
+            var shirts = await _context.Shirts.ToListAsync();
+            return Ok(shirts);
         }
 
         [HttpGet("{id}")]
         [Shirt_ValidateShirtIdFilter]
-        //public string GetShirtById(int id)
-        public IActionResult GetShirtById(int id)
+        public async Task<IActionResult> GetShirtById(int id)
         {
-            return Ok(ShirtRespozitory.GetShirtById(id));
+            var shirt = await _context.Shirts.FindAsync(id);
+            if (shirt == null)
+                return NotFound();
+            
+            return Ok(shirt);
         }
 
         [HttpPost]
         [Shirt_ValidateCreateShirtFilter]
-        public IActionResult CreateShirt([FromBody]Shirt shirt)
+        public async Task<IActionResult> CreateShirt([FromBody]Shirt shirt)
         {
+            _context.Shirts.Add(shirt);
+            await _context.SaveChangesAsync();
             
-    
-            ShirtRespozitory.AddShirt(shirt);
             return CreatedAtAction(nameof(GetShirtById),
                 new { id = shirt.ShirtId },
                 shirt);
         }
 
-
         [HttpPut("{id}")]
         [Shirt_ValidateShirtIdFilter]
         [Shirt_ValidateUpdateShirtFilter]
-       [Shirt_HandleUpdateExceptionsFilter]
-        public IActionResult UpdateShirt(int id, [FromBody] Shirt shirt)
+        [Shirt_HandleUpdateExceptionsFilter]
+        public async Task<IActionResult> UpdateShirt(int id, [FromBody] Shirt shirt)
         {
+            shirt.ShirtId = id;
+            _context.Entry(shirt).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
             
-           // if (id != shirt.ShirtId) return BadRequest();
-            
-                ShirtRespozitory.UpdateShirt(shirt);
-         
-
             return NoContent();
         }
-           /*
-            if (shirt == null)
-                return BadRequest("Shirt object is null.");
 
-            if (id != shirt.ShirtId)
-                return BadRequest($"URL id ({id}) does not match shirt id ({shirt.ShirtId}).");
-
-            if (!ShirtRespozitory.ShirtExists(id))
-                return NotFound($"Shirt with id {id} not found.");
-
-            ShirtRespozitory.UpdateShirt(shirt);
-            return NoContent();
-        }
-*/
         [HttpDelete("{id}")]
         [Shirt_ValidateShirtIdFilter]
-        public IActionResult DeleteShirt(int id)
+        public async Task<IActionResult> DeleteShirt(int id)
         {
-            var shirt = ShirtRespozitory.GetShirtById(id);
-            ShirtRespozitory.DeleteShirt(id);
-            //shirt.Remove(shirt); --- ask Geir why this is not working!!!
+            var shirt = await _context.Shirts.FindAsync(id);
+            if (shirt == null)
+                return NotFound();
+            
+            _context.Shirts.Remove(shirt);
+            await _context.SaveChangesAsync();
+            
             return Ok(shirt);
         }
     }

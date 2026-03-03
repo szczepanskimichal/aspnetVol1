@@ -1,4 +1,4 @@
-using aspnetVol1.Models.Respozitories;
+using aspnetVol1.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -9,6 +9,9 @@ public class Shirt_ValidateShirtIdFilterAttribute : ActionFilterAttribute
    public override void OnActionExecuting(ActionExecutingContext context)
    {
       base.OnActionExecuting(context);
+      
+      var dbContext = context.HttpContext.RequestServices.GetService<AplicationDbContext>();
+      
       var shirtId = context.ActionArguments["id"] as int?;
       if (shirtId.HasValue)
       {
@@ -21,7 +24,7 @@ public class Shirt_ValidateShirtIdFilterAttribute : ActionFilterAttribute
             };
             context.Result = new BadRequestObjectResult(problemDetails);
          }
-         else if (!ShirtRespozitory.ShirtExists(shirtId.Value))
+         else if (dbContext != null && !dbContext.Shirts.Any(s => s.ShirtId == shirtId.Value))
          {
             context.ModelState.AddModelError("shirtId", $"Shirt with id {shirtId.Value} not found.");
             var problemDetails = new ValidationProblemDetails(context.ModelState)

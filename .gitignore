@@ -32,8 +32,12 @@ riderModule.iml
 
 # User secrets
 appsettings.Development.json
+appsettings.*.json
+!appsettings.json
 secrets.json
 secrets.*.json
+*.secrets.json
+connectionstrings.json
 
 # OS files
 .DS_Store

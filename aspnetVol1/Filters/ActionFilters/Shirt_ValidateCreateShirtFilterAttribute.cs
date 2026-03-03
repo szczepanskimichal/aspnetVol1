@@ -1,5 +1,5 @@
+using aspnetVol1.Data;
 using aspnetVol1.Models;
-using aspnetVol1.Models.Respozitories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -10,22 +10,30 @@ namespace aspnetVol1.Filters
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
+            
+            var dbContext = context.HttpContext.RequestServices.GetService<AplicationDbContext>();
+            
             var shirt = context.ActionArguments["shirt"] as Shirt;
             if (shirt == null)
             {
-                context.ModelState.AddModelError("shirtId", "ShirtId object is null.");
+                context.ModelState.AddModelError("shirt", "Shirt object is null.");
                 var problemDetails = new ValidationProblemDetails(context.ModelState)
                 {
                     Status = StatusCodes.Status400BadRequest,
                 };
                 context.Result = new BadRequestObjectResult(problemDetails);
             }
-            else
+            else if (dbContext != null)
             {
-                var existingShirt = ShirtRespozitory.GetShirtByProperties(shirt.Brand, shirt.Color, shirt.Size, shirt.Gender);
+                var existingShirt = dbContext.Shirts.FirstOrDefault(s => 
+                    s.Brand == shirt.Brand && 
+                    s.Color == shirt.Color && 
+                    s.Size == shirt.Size && 
+                    s.Gender == shirt.Gender);
+                    
                 if (existingShirt != null)
                 {
-                    context.ModelState.AddModelError("shirtId", "ShirtId already exists.");
+                    context.ModelState.AddModelError("shirt", "Shirt with the same properties already exists.");
                     var problemDetails = new ValidationProblemDetails(context.ModelState)
                     {
                         Status = StatusCodes.Status400BadRequest,
@@ -35,10 +43,4 @@ namespace aspnetVol1.Filters
             }
         }
     }
-}   
-// if (shirt == null) 
-//     return BadRequest("Invalid shirt data.");
-//     
-// var existingShirt = ShirtRespozitory.GetShirtByProperties(shirt.Brand, shirt.Color, shirt.Size, shirt.Gender);
-// if(existingShirt != null) 
-//     return BadRequest("Shirt with the same properties already exists.");
+}

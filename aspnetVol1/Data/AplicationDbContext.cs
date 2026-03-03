@@ -5,6 +5,10 @@ namespace aspnetVol1.Data
 {
     public class AplicationDbContext : DbContext
     {
+        public AplicationDbContext(DbContextOptions options) : base(options)
+        {
+            
+        }
         public DbSet<Shirt> Shirts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

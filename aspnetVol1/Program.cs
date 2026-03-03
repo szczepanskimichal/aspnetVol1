@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using aspnetVol1.Data;
+
+
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
-// Add services to the container.
+
+builder.Services.AddDbContext<AplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ShirtStoreManagement")));
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
