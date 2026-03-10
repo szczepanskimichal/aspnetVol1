@@ -12,11 +12,11 @@ POST {{aspnetVol1_HostAddress}}/api/shirt
 Content-Type: application/json
 
 {
-  "brand": "TestBrand",
-  "color": "Blue",
+  "brand": "Michal",
+  "color": "Green",
   "size": 42,
-  "gender": "Women",
-  "price": 154.99
+  "gender": "Men",
+  "price": 300.99
 }
 
 > {%

@@ -1,11 +1,13 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddHttpClient("ShirtApi", client =>
+builder.Services.AddHttpClient("ShirtsApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:5001/api/");
-    client.DefaultRequestHeaders.Add("Accept", "application/json");
+    client.BaseAddress = new Uri("http://localhost:5042/");
 });
+
+builder.Services.AddScoped<WebApp.Data.IWebApiExecuter, WebApp.Data.WebApiExecuter>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

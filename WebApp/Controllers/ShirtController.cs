@@ -1,13 +1,32 @@
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Models.Respozitories;
+using WebApp.Data;
+using WebApp.Models;
 
-namespace WebApp.Controllers;
-
-public class ShirtController : Controller
+namespace WebApp.Controllers
 {
-    // GET
-    public IActionResult Index()
+    public class ShirtsController : Controller
     {
-        return View(ShirtRespozitory.GetShirts()); // przekazujemy listę koszulek do widoku!!!! 
+        private readonly IWebApiExecuter webApiExecuter;
+
+        public ShirtsController(IWebApiExecuter webApiExecuter)
+        {
+            this.webApiExecuter = webApiExecuter;
+        }
+
+        public async Task<IActionResult> Index()
+        {            
+            return View(await webApiExecuter.InvokeGet<List<Shirt>>("shirts"));
+        }
+
+        public IActionResult CreateShirt()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateShirt(Shirt shirt)
+        {
+            return View(shirt);
+        }
     }
 }
