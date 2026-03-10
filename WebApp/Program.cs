@@ -20,10 +20,22 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+// Custom route for /shirts/{id} -> Shirt/Details/{id}
 app.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    name: "shirtsDetails",
+    pattern: "shirts/{id:int}",
+    defaults: new { controller = "Shirt", action = "Details" });
+/*
+// Custom route for /shirts -> Shirt/Index
+app.MapControllerRoute(
+    name: "shirts",
+    pattern: "shirts",
+    defaults: new { controller = "Shirt", action = "Index" });
+*/
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
 app.Run();
